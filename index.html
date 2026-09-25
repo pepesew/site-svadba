@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Иван &amp; София — Приглашение на свадьбу | 31.10.2026</title>
+  <meta name="description" content="Мы будем счастливы разделить этот особенный день с вами. Подтвердите свое присутствие на сайте.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#FFFDF5">
+
+  <!-- Open Graph (абсолютные URL подставить после выбора домена) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="Иван &amp; София — Приглашение на свадьбу | 31.10.2026">
+  <meta property="og:description" content="Мы будем счастливы разделить этот особенный день с вами. Подтвердите свое присутствие на сайте.">
+  <meta property="og:url" content="https://ivan-sofia.ru/">
+  <meta property="og:image" content="https://ivan-sofia.ru/assets/img/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Great+Vibes&family=Inter:ital,wght@0,400;1,300;1,400&display=swap&subset=cyrillic" rel="stylesheet">
+  <!-- Bickham Script Pro (Adobe Fonts): вставить сюда ссылку на web-проект, например
+       <link rel="stylesheet" href="https://use.typekit.net/XXXXXXX.css"> -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    // Флаги до отрисовки: включен JS, идет загрузка, разрешены ли анимации
+    (function (d) {
+      var root = d.documentElement;
+      var motion = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      root.classList.add('js', 'is-loading');
+      if (motion) root.classList.add('has-motion');
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      // Сюда 3D-сцены будут добавлять промисы загрузки моделей
+      window.WEDDING_PRELOAD = [];
+      // Страховка: если скрипты упали, не держим гостя на черном экране
+      window.__preloaderFailsafe = setTimeout(function () {
+        root.classList.remove('is-loading');
+        root.classList.add('is-loaded');
+      }, 12000);
+    })(document);
+  </script>
+</head>
+<body>
+
+  <!-- Общий 3D-canvas (см. 02–04). Лежит под контентом -->
+  <canvas class="webgl" data-webgl aria-hidden="true"></canvas>
+
+  <!-- 1. Прелоадер -->
+  <div class="preloader" data-preloader aria-hidden="true">
+    <div class="preloader__inner">
+      <p class="preloader__mono">I <span>&amp;</span> S</p>
+      <p class="preloader__count"><span data-preloader-count>0</span>%</p>
+    </div>
+  </div>
+
+  <!-- 2. Главный экран -->
+  <header class="hero">
+    <div class="container hero__content">
+      <div class="scene-slot scene-slot--rings" data-scene-slot="rings" aria-hidden="true">
+        <img class="scene-fallback" src="assets/img/3d-rings.webp" alt="" loading="lazy">
+      </div>
+      <p class="eyebrow hero__eyebrow"><span class="text-3d" data-text="Приглашение на свадьбу">Приглашение на свадьбу</span></p>
+      <h1 class="hero__names"><span class="hero__line">Иван</span> <span class="amp"><span class="amp__glyph">&amp;</span></span> <span class="hero__line">София</span></h1>
+      <p class="hero__date">31 · 10 · 2026</p>
+    </div>
+    <div class="hero__scroll" aria-hidden="true">
+      <span>Листайте</span>
+      <i class="hero__scroll-line"></i>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 3. Приветствие и фото -->
+    <section class="section intro" id="intro">
+      <div class="container">
+        <p class="eyebrow">Дорогие гости</p>
+        <h2 class="title title--cormorant">Один день — на всю жизнь</h2>
+        <hr class="divider">
+        <p class="text">
+          Мы решили связать наши судьбы и будем счастливы, если в этот
+          особенный день рядом окажутся самые близкие люди. Приглашаем вас
+          разделить с нами радость, смех и первые минуты нашей новой истории.
+        </p>
+
+        <div class="gallery">
+          <figure class="photo photo--left">
+            <div class="photo__frame"><div class="photo__crop"><img class="photo__img" src="assets/img/photo-1-960.webp" srcset="assets/img/photo-1-480.webp 480w, assets/img/photo-1-960.webp 960w" sizes="(max-width: 600px) 60vw, 360px" width="960" height="1280" alt="Иван и София: он обнимает ее и прижимается щекой" loading="lazy" decoding="async"></div></div>
+          </figure>
+          <figure class="photo photo--right">
+            <div class="photo__frame"><div class="photo__crop"><img class="photo__img" src="assets/img/photo-2-960.webp" srcset="assets/img/photo-2-480.webp 480w, assets/img/photo-2-960.webp 960w" sizes="(max-width: 600px) 60vw, 360px" width="960" height="1280" alt="Иван и София обнимаются на набережной" loading="lazy" decoding="async"></div></div>
+          </figure>
+        </div>
+
+        <blockquote class="quote">
+          «Любовь — это не когда смотрят друг на друга,
+          а когда смотрят в одном направлении»
+        </blockquote>
+
+        <div class="gallery gallery--single">
+          <figure class="photo photo--center">
+            <div class="photo__frame"><div class="photo__crop"><img class="photo__img" src="assets/img/photo-3-960.webp" srcset="assets/img/photo-3-480.webp 480w, assets/img/photo-3-960.webp 960w" sizes="(max-width: 600px) 60vw, 360px" width="960" height="1280" alt="Иван и София в объятиях под фонарем" loading="lazy" decoding="async"></div></div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Программа дня -->
+    <section class="section program" id="program">
+      <div class="container">
+        <p class="eyebrow">31 октября</p>
+        <h2 class="title">Программа дня</h2>
+        <hr class="divider">
+
+        <ol class="timeline">
+          <li class="timeline__item">
+            <time class="timeline__time" datetime="14:00">14:00</time>
+            <div class="timeline__body">
+              <h3 class="timeline__event">Фуршет</h3>
+            </div>
+          </li>
+          <li class="timeline__item">
+            <time class="timeline__time" datetime="14:30">14:30</time>
+            <div class="timeline__body">
+              <h3 class="timeline__event">Встреча молодых</h3>
+            </div>
+          </li>
+          <li class="timeline__item">
+            <time class="timeline__time" datetime="22:00">22:00</time>
+            <div class="timeline__body">
+              <h3 class="timeline__event">Окончание банкета</h3>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 5. Локация -->
+    <section class="section location" id="location">
+      <div class="container">
+        <p class="eyebrow">Локация</p>
+        <h2 class="title">
+          <svg class="title__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 21.5s-6.5-6.2-6.5-11.3a6.5 6.5 0 0 1 13 0c0 5.1-6.5 11.3-6.5 11.3Z"/>
+            <circle cx="12" cy="10" r="2.3"/>
+          </svg>
+          Как добраться
+        </h2>
+        <hr class="divider">
+
+        <dl class="venue">
+          <div class="venue__row">
+            <dt class="venue__label">Место проведения</dt>
+            <dd class="venue__name" data-venue-name>Ресторан «Royal Palace»</dd>
+          </div>
+          <div class="venue__row">
+            <dt class="venue__label">Адрес</dt>
+            <dd class="venue__address" data-venue-address>г. Оренбург, ул. Одесская, д. 45</dd>
+          </div>
+        </dl>
+        <p class="venue__note">Начало в 14:00</p>
+
+        <a class="map" data-link="yandex-point" href="https://yandex.ru/maps/?pt=55.130891,51.785757&amp;z=17&amp;l=map" target="_blank" rel="noopener" aria-label="Открыть ресторан на Яндекс Картах">
+          <span class="map__frame">
+            <iframe class="map__iframe" data-map src="https://yandex.ru/map-widget/v1/?ll=55.130891%2C51.785757&amp;z=16&amp;pt=55.130891%2C51.785757%2Cpm2dgl" title="Карта: ресторан Royal Palace, Оренбург" loading="lazy" tabindex="-1"></iframe>
+          </span>
+          <span class="map__caption">Открыть карту <span aria-hidden="true">↗</span></span>
+        </a>
+
+        <p class="location__label">Проложить маршрут</p>
+        <div class="buttons">
+          <a class="btn" data-link="yandex" href="https://yandex.ru/maps/?rtext=~51.785757%2C55.130891&amp;rtt=auto" target="_blank" rel="noopener">Яндекс Карты</a>
+          <a class="btn" data-link="2gis" href="https://2gis.ru/geo/55.130891,51.785757" target="_blank" rel="noopener">2ГИС</a>
+          <a class="btn" data-link="google" href="https://www.google.com/maps/dir/?api=1&amp;destination=51.785757,55.130891" target="_blank" rel="noopener">Google Maps</a>
+          <a class="btn" data-link="apple" href="https://maps.apple.com/?daddr=51.785757,55.130891&amp;q=Royal%20Palace" target="_blank" rel="noopener">Apple Карты</a>
+        </div>
+
+        <p class="location__label">Сохранить дату</p>
+        <div class="buttons">
+          <a class="btn btn--ghost" href="wedding.ics" download>Apple Календарь</a>
+          <a class="btn btn--ghost" data-link="gcal" href="https://calendar.google.com/calendar/" target="_blank" rel="noopener">Google Календарь</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5a. Дресс-код -->
+    <section class="section dresscode" id="dresscode">
+      <div class="container">
+        <h2 class="title">Черное &amp; белое</h2>
+        <hr class="divider">
+
+        <div class="palette" role="list" aria-label="Цвета дресс-кода">
+          <div class="swatch" role="listitem">
+            <span class="swatch__dot swatch__dot--white" aria-hidden="true"></span>
+            <span class="swatch__name">Белый</span>
+            <span class="swatch__hex">#FFFFFF</span>
+          </div>
+          <div class="swatch" role="listitem">
+            <span class="swatch__dot swatch__dot--black" aria-hidden="true"></span>
+            <span class="swatch__name">Черный</span>
+            <span class="swatch__hex">#111111</span>
+          </div>
+        </div>
+
+        <p class="text">
+          Специального дресс-кода у нас нет — мы хотим, чтобы вам было
+          максимально комфортно. Но нам будет очень приятно, если вы поддержите
+          концепцию праздника и выберете наряды в черно-белой гамме.
+        </p>
+        <p class="dresscode__sign">До встречи на свадьбе!</p>
+      </div>
+    </section>
+
+    <!-- 6. Подарки -->
+    <section class="section gifts" id="gifts">
+      <div class="container">
+        <div class="scene-slot scene-slot--gift" data-scene-slot="gift" aria-hidden="true">
+          <img class="scene-fallback" src="assets/img/3d-gift.webp" alt="" loading="lazy">
+        </div>
+        <p class="eyebrow">Небольшая просьба</p>
+        <h2 class="title">Вместо цветов</h2>
+        <hr class="divider">
+        <p class="text">
+          Мы очень ценим ваше внимание, но цветы, к сожалению, быстро увядают.
+          Если захотите порадовать нас — подарите вместо букета коробку
+          любимых конфет или бутылку хорошего вина. Мы с удовольствием
+          вспомним о вас, открывая их.
+        </p>
+      </div>
+    </section>
+
+    <!-- 7. Таймер -->
+    <section class="section countdown" id="countdown">
+      <div class="container" data-countdown>
+        <div class="scene-slot scene-slot--heart" data-scene-slot="heart" aria-hidden="true">
+          <img class="scene-fallback" src="assets/img/3d-heart.webp" alt="" loading="lazy">
+        </div>
+        <div data-countdown-running>
+          <p class="eyebrow">До свадьбы осталось</p>
+          <div class="timer" role="timer" aria-live="off">
+            <div class="timer__unit"><span class="timer__value" data-timer="days">00</span><span class="timer__label">дней</span></div>
+            <div class="timer__unit"><span class="timer__value" data-timer="hours">00</span><span class="timer__label">часов</span></div>
+            <div class="timer__unit"><span class="timer__value" data-timer="minutes">00</span><span class="timer__label">минут</span></div>
+            <div class="timer__unit"><span class="timer__value" data-timer="seconds">00</span><span class="timer__label">секунд</span></div>
+          </div>
+        </div>
+        <div data-countdown-done hidden>
+          <p class="eyebrow">31 · 10 · 2026</p>
+          <h2 class="title">Этот день настал</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. RSVP -->
+    <section class="section rsvp" id="rsvp">
+      <div class="container">
+        <p class="eyebrow">Ответ до 1 октября</p>
+        <h2 class="title">Подтвердите присутствие</h2>
+        <hr class="divider">
+
+        <form class="form" id="rsvp-form" novalidate>
+          <label class="field">
+            <span class="field__label">Имя и фамилия</span>
+            <input class="field__input" type="text" name="name" autocomplete="name" maxlength="100" required aria-describedby="err-name">
+            <span class="field__error" id="err-name" data-error="name" aria-live="polite"></span>
+          </label>
+
+          <fieldset class="choice">
+            <legend class="field__label">Вы придете?</legend>
+            <label class="choice__option">
+              <input type="radio" name="status" value="alone" required>
+              <span>Приду один</span>
+            </label>
+            <label class="choice__option">
+              <input type="radio" name="status" value="plus">
+              <span>Буду с парой / семьей</span>
+            </label>
+            <label class="choice__option">
+              <input type="radio" name="status" value="decline">
+              <span>Не смогу прийти</span>
+            </label>
+            <span class="field__error" data-error="status" aria-live="polite"></span>
+          </fieldset>
+
+          <label class="field field--count">
+            <span class="field__label">Сколько вас будет, включая вас</span>
+            <input class="field__input" type="number" name="count" min="2" max="10" value="2" inputmode="numeric" aria-describedby="err-count">
+            <span class="field__error" id="err-count" data-error="count" aria-live="polite"></span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Комментарий (необязательно)</span>
+            <textarea class="field__input field__input--area" name="comment" rows="2" maxlength="500"></textarea>
+          </label>
+
+          <!-- honeypot: люди это поле не видят -->
+          <label class="hp" aria-hidden="true">
+            Не заполняйте <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
+
+          <button class="btn btn--wide" type="submit">Подтвердить</button>
+          <p class="form__error" data-form-error role="alert"></p>
+        </form>
+
+        <div class="thanks" data-rsvp-thanks hidden>
+          <div class="scene-slot scene-slot--thanks" data-scene-slot="thanks" aria-hidden="true"></div>
+          <h3 class="thanks__title" data-thanks-title>Спасибо!</h3>
+          <p class="text" data-thanks-text></p>
+          <p class="thanks__summary" data-thanks-summary></p>
+          <button class="link-btn" type="button" data-rsvp-edit>Изменить ответ</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Группа в MAX -->
+    <section class="section max" id="max">
+      <div class="container">
+        <p class="eyebrow">Оставайтесь на связи</p>
+        <h2 class="title">Наш общий чат</h2>
+        <hr class="divider">
+        <p class="text text--narrow">
+          Мы создали группу в MAX для всех гостей. Там будут новости о дне
+          свадьбы, а после праздника — фотографии и видео. Присоединяйтесь!
+        </p>
+
+        <div class="max__stack">
+          <figure class="qr">
+            <div class="qr__frame">
+              <svg class="qr__outline" aria-hidden="true" preserveAspectRatio="none"><rect width="100%" height="100%" pathLength="1"/></svg>
+              <i class="qr__scan" aria-hidden="true"></i>
+              <i class="qr__corner qr__corner--tl"></i>
+              <i class="qr__corner qr__corner--tr"></i>
+              <i class="qr__corner qr__corner--bl"></i>
+              <i class="qr__corner qr__corner--br"></i>
+              <img class="qr__code" src="assets/img/qr-max.svg" loading="lazy" width="200" height="200" alt="QR-код для вступления в группу свадьбы в MAX">
+            </div>
+            <figcaption class="qr__caption">
+              <span class="only-desktop">Наведите камеру телефона</span>
+              <span class="only-touch">Или покажите этот код тому, кто рядом</span>
+            </figcaption>
+          </figure>
+
+          <a class="btn btn--wide btn--arrow max__btn" data-link="max" href="https://max.ru/" target="_blank" rel="noopener">
+            Вступить в группу MAX <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <p class="max__link">
+          <span data-max-text>max.ru</span>
+          <button class="link-btn" type="button" data-copy>Скопировать</button>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 11. Футер -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__mono">I &amp; S</p>
+      <p class="footer__date">31.10.2026</p>
+      <p class="footer__sign">С любовью, Иван &amp; София</p>
+      <p class="footer__dev">Разработчик — pepesew</p>
+    </div>
+  </footer>
+
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+  <script src="js/vendor/lenis.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/motion.js"></script>
+</body>
+</html>

@@ -1,0 +1,941 @@
+/* ==========================================================================
+   Токены дизайн-системы (см. 01_design_system)
+   ========================================================================== */
+:root {
+  --bg: #FFFDF5;          /* мягкий белый айвори */
+  --text: #111111;
+  --muted: #645C50;       /* теплый графит, контраст 5.4:1 на шампани */
+  --line: #DFCBAE;
+  --placeholder: #EEDABB;
+  --white: #FFFFFF;
+
+  --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  /* Имена пары. Bickham Script Pro — платный шрифт Adobe: подключается через
+     Adobe Fonts (семейство bickham-script-pro-3) или файлом в assets/fonts.
+     Пока его нет — используется Great Vibes (Google Fonts, есть кириллица). */
+  --font-script: "bickham-script-pro-3", "Bickham Script Pro 3", "Bickham Script Pro", "Great Vibes", cursive;
+  --font-sans: "Inter", -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+  --container: 600px;
+  --gutter: 24px;
+  --section-gap: 100px;
+}
+
+@media (min-width: 768px) {
+  :root { --section-gap: 180px; }
+}
+
+/* ==========================================================================
+   База
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-style: italic;      /* весь сайт — курсив (кроме 3D-надписи) */
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p, figure, blockquote, ol { margin: 0; padding: 0; }
+button, input, textarea { font-style: inherit; } /* элементы форм не наследуют начертание сами */
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-gap) 0;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Типографика
+   ========================================================================== */
+.eyebrow {
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(36px, 9vw, 44px);
+  line-height: 1.15;
+}
+
+.title--cormorant {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+}
+
+.divider {
+  width: 40px;
+  height: 1px;
+  border: 0;
+  background: var(--text);
+  margin: 24px auto;
+}
+
+.text { max-width: 480px; margin: 0 auto; }
+.text--narrow { max-width: 420px; }
+
+.quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.4;
+  max-width: 440px;
+  margin: 80px auto;
+}
+
+/* ==========================================================================
+   Кнопки
+   ========================================================================== */
+.buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 420px;
+  margin: 16px auto 0;
+}
+.buttons .btn { padding: 0 12px; }
+.buttons + .buttons { margin-top: 12px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 28px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--text);
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .3s, color .3s;
+}
+.btn:hover,
+.btn:active,
+.btn:focus-visible { background: var(--text); color: var(--bg); }
+.btn:focus-visible { outline: 1px solid var(--text); outline-offset: 3px; }
+
+.btn--ghost { border-color: var(--line); }
+.btn--wide { width: 100%; max-width: 360px; }
+
+.btn--arrow .arrow { transition: transform .3s; }
+.btn--arrow:hover .arrow { transform: translateX(4px); }
+
+.link-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   2. Главный экран
+   ========================================================================== */
+.hero {
+  position: relative;
+  min-height: max(620px, 100vh);
+  min-height: max(620px, 100dvh); /* растет, если контент выше экрана — дата не наезжает на подсказку */
+  padding-block: 32px 120px; /* место под подсказку «Листайте» */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero__content { position: relative; }
+
+.hero__names {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-style: italic;       /* у рукописного шрифта нет italic — браузер наклоняет сам */
+  font-synthesis: style;
+  font-size: clamp(58px, 17vw, 100px);
+  line-height: 1.08;
+  letter-spacing: 0;
+  margin: 12px 0 28px;
+}
+.hero__names .amp {
+  display: block;
+  font-family: var(--font-serif);
+  font-style: italic;       /* тот самый курсивный «&» Cormorant */
+  font-weight: 300;         /* тоньше основного текста */
+  font-size: .6em;
+  line-height: 1;
+  margin: 0 0 .04em;
+  color: #9A8F7E;           /* чуть светлее второстепенного текста */
+}
+/* Курсивный знак наклонен — выпрямляем обратным скосом (17° — при нем главная ось
+   знака вертикальна, по замеру) и сдвигаем к оптическому центру имен: наклонные
+   рукописные имена визуально стоят правее своих рамок */
+.amp__glyph {
+  display: inline-block;
+  transform: translateX(var(--amp-shift, .14em)) skewX(var(--amp-deskew, 17deg));
+}
+
+/* «Приглашение на свадьбу» — объемные буквы: слои тени дают толщину,
+   мягкая тень снизу отрывает надпись от фона */
+/* Кольца и «Приглашение на свадьбу» подняты на 18px; top не сдвигает остальной контент */
+.scene-slot--rings,
+.hero__eyebrow {
+  position: relative;
+  top: -18px;
+}
+
+.hero__eyebrow {
+  perspective: 500px;
+  margin-bottom: 20px;
+}
+.text-3d {
+  display: inline-block;
+  font-style: normal;       /* объемная надпись остается прямой */
+  font-size: clamp(14px, 3.8vw, 18px);
+  font-weight: 400;
+  letter-spacing: .3em;
+  padding-left: .3em;       /* разрядка добавляется и после последней буквы — уравновешиваем слева */
+  color: #2B2620;
+  transform: rotateX(14deg);
+  transform-origin: 50% 100%;
+  text-shadow:
+    0 1px 0 #E6DCCB,
+    0 2px 0 #DDD1BC,
+    0 3px 0 #D3C5AD,
+    0 4px 0 #C9B99E,
+    0 5px 1px rgba(70, 52, 25, .18),
+    0 6px 6px rgba(70, 52, 25, .16),
+    0 12px 16px rgba(70, 52, 25, .12);
+}
+@media (max-width: 599px) {
+  .text-3d { letter-spacing: .22em; padding-left: .22em; }
+}
+
+.hero__date {
+  font-size: 14px;
+  letter-spacing: .04em;
+}
+
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: calc(32px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+.hero__scroll-line {
+  width: 1px;
+  height: 48px;
+  background: var(--line);
+}
+
+/* Низкие экраны ноутбуков: первый экран должен помещаться целиком */
+@media (min-width: 600px) and (max-height: 760px) {
+  .hero { padding-block: 16px 96px; min-height: 100vh; min-height: 100dvh; }
+  .hero__scroll { bottom: 14px; gap: 8px; }
+  .hero__scroll-line { height: 26px; }
+  .hero__names { font-size: 66px; margin: 6px 0 16px; }
+  .scene-slot--rings { height: 130px; margin-bottom: 12px; }
+}
+
+/* ==========================================================================
+   3. Фото (журнальная верстка)
+   ========================================================================== */
+.gallery {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-top: 96px;
+}
+.gallery--single { justify-content: center; margin-top: 0; }
+
+.photo { width: 58%; }
+.photo--left { margin-right: auto; }
+.photo--right { width: 46%; margin-top: 45%; }
+.photo--center { width: 70%; }
+
+/* Белое паспарту: широкие поля вокруг фото, как у галерейного отпечатка */
+.photo__frame {
+  padding: clamp(14px, 9%, 30px);
+  padding-bottom: clamp(20px, 13%, 44px); /* нижнее поле шире — классическое паспарту */
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: 0 18px 40px -24px rgba(60, 45, 20, .28);
+}
+
+.photo__crop { overflow: hidden; } /* изображение «наезжает» внутри себя, не залезая на поля */
+.photo__img {
+  display: block;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  background: var(--placeholder); /* виден, пока фото грузится */
+}
+
+/* ==========================================================================
+   4. Таймлайн
+   ========================================================================== */
+.timeline {
+  list-style: none;
+  position: relative;
+  max-width: 460px;
+  margin: 56px auto 0;
+  text-align: left;
+}
+/* линия идет через центры точек первого и последнего пункта */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 26px;
+  bottom: 26px;
+  left: 50%;
+  width: 1px;
+  background: var(--line);
+}
+
+.timeline__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 72px;          /* место под линию и точку посередине */
+  align-items: center;
+  min-height: 52px;
+  padding-bottom: 72px;
+}
+.timeline__item:last-child { padding-bottom: 0; }
+.timeline__item::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 26px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--text);
+  transform: translate(-50%, -50%);
+}
+
+.timeline__time {
+  text-align: right;
+  font-family: var(--font-serif);
+  font-variant-numeric: lining-nums;
+  font-size: clamp(36px, 10vw, 46px);
+  line-height: 1;
+}
+.timeline__body { text-align: left; }
+@media (max-width: 599px) {
+  .timeline__item { column-gap: 44px; }
+  .timeline__event { font-size: 19px; }
+}
+.timeline__event {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 5.4vw, 24px);
+  font-weight: 400;
+  letter-spacing: .04em;
+  line-height: 1.25;
+}
+
+/* ==========================================================================
+   5. Локация
+   ========================================================================== */
+.title__icon {
+  display: inline-block;
+  width: .62em;
+  height: .62em;
+  margin-right: .12em;
+  vertical-align: -.02em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+.venue { margin: 0; }
+.venue__row + .venue__row { margin-top: 20px; }
+.venue__label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.venue dd { margin: 0; }
+.venue__name {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.2;
+}
+.venue__address { font-size: 17px; }
+.venue__note {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Карта: статичная картинка-ссылка в рамке, как у фото. Интерактив отключен,
+   чтобы карта не перехватывала свайп на телефоне — по тапу открывается Яндекс */
+.map {
+  display: block;
+  max-width: 420px;
+  margin: 40px auto 0;
+  text-decoration: none;
+}
+.map__frame {
+  display: block;
+  padding: 8px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+.map__iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  pointer-events: none;
+  /* монохром в тон сайта */
+  filter: grayscale(1) sepia(.12) contrast(.94) brightness(1.03);
+  transition: filter .5s;
+}
+.map:hover .map__iframe { filter: grayscale(.6) sepia(.08) contrast(1) brightness(1); }
+.map__caption {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+
+.location__label {
+  margin: 40px 0 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Дресс-код
+   ========================================================================== */
+.palette {
+  display: flex;
+  justify-content: center;
+  margin: 8px auto 40px;
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.swatch + .swatch { margin-left: -22px; } /* кружки слегка заходят друг на друга */
+
+.swatch__dot {
+  display: block;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  /* кольцо цвета фона отделяет кружки в месте наложения */
+  box-shadow:
+    0 0 0 5px var(--bg),
+    0 18px 32px -12px rgba(60, 40, 10, .35);
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1);
+}
+.swatch__dot--white {
+  position: relative;
+  z-index: 1;
+  outline: 1px solid var(--line); /* белый на айвори — нужен тонкий контур */
+  outline-offset: -1px;
+  background: radial-gradient(circle at 32% 28%, #FFFFFF 0%, #FFFFFF 45%, #F1EEEA 100%);
+}
+.swatch__dot--black {
+  background: radial-gradient(circle at 32% 28%, #3A3A3A 0%, #151515 55%, #0A0A0A 100%);
+}
+@media (hover: hover) {
+  .swatch:hover .swatch__dot { transform: translateY(-6px); }
+}
+
+.swatch__name {
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.swatch__hex {
+  margin-top: -10px;
+  font-size: 11px;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
+.dresscode__sign {
+  margin-top: 32px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 26px;
+}
+
+/* ==========================================================================
+   6–7. Подарки, таймер
+   ========================================================================== */
+.scene-slot {
+  position: relative;
+  height: 200px;
+  margin-bottom: 40px;
+}
+.scene-slot--rings { height: clamp(160px, 26vh, 260px); margin-bottom: 20px; }
+.scene-slot--gift { height: 220px; }
+.scene-slot--thanks { height: 160px; margin-bottom: 24px; }
+
+/* Статичная картинка вместо 3D — только если WebGL недоступен или слишком медленный */
+.scene-fallback {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 130%; /* снимок захватывает и тень под объектом */
+  width: auto;
+  max-width: none;
+  transform: translateX(-50%);
+}
+.no-webgl .scene-fallback { display: block; }
+
+/* ==========================================================================
+   3D-canvas: зафиксирован под контентом
+   ========================================================================== */
+.webgl {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100lvh;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+.no-webgl .webgl { display: none; }
+
+.hero, main, .footer { position: relative; z-index: 1; }
+
+
+.timer {
+  display: flex;
+  justify-content: center;
+  gap: clamp(16px, 6vw, 40px);
+  margin-top: 16px;
+}
+.timer__unit { display: flex; flex-direction: column; align-items: center; min-width: 56px; }
+.timer__value {
+  font-family: var(--font-serif);
+  font-size: clamp(40px, 11vw, 56px);
+  line-height: 1.1;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.timer__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   8. RSVP
+   ========================================================================== */
+.form {
+  max-width: 420px;
+  margin: 48px auto 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.field { display: block; }
+.field__label {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+.field__input {
+  width: 100%;
+  padding: 8px 0;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--text);
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--text);
+  outline: none;
+  transition: box-shadow .3s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field__input:focus { box-shadow: 0 1px 0 0 var(--text); }
+.field__input--area { resize: vertical; min-height: 44px; }
+
+.choice {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.choice__option { position: relative; display: block; cursor: pointer; }
+.choice__option input { position: absolute; opacity: 0; pointer-events: none; }
+.choice__option span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  text-align: center;
+  transition: background-color .3s, color .3s, border-color .3s;
+}
+.choice__option:hover span { border-color: var(--text); }
+.choice__option input:checked + span {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+.choice__option input:focus-visible + span { outline: 1px solid var(--text); outline-offset: 3px; }
+
+/* поле «сколько вас» видно только при выборе «с парой / семьей» */
+.field--count { display: none; }
+.form:has(input[value="plus"]:checked) .field--count { display: block; }
+
+.form .btn { align-self: center; }
+.btn:disabled { opacity: .5; cursor: progress; }
+.btn:disabled:hover { background: transparent; color: var(--text); }
+
+.field__error:empty,
+.form__error:empty { display: none; }
+.field__error {
+  display: block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--text);
+}
+.field__error::before { content: "— "; }
+.field__input[aria-invalid="true"] { box-shadow: 0 1px 0 0 var(--text); }
+.choice:has([aria-invalid="true"]) .choice__option span { border-color: var(--text); }
+
+.form__error {
+  margin-top: -12px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.thanks { margin-top: 48px; }
+.thanks__title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+.thanks__summary {
+  margin: 24px 0 16px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+.thanks .link-btn { font-size: 14px; }
+
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   10. Группа в MAX
+   ========================================================================== */
+.max__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.qr { display: flex; flex-direction: column; align-items: center; }
+.qr__frame {
+  position: relative;
+  padding: 20px;
+  border: 1px solid var(--line);
+}
+.qr__corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 0 solid var(--text);
+}
+.qr__corner--tl { top: -1px; left: -1px; border-top-width: 1px; border-left-width: 1px; }
+.qr__corner--tr { top: -1px; right: -1px; border-top-width: 1px; border-right-width: 1px; }
+.qr__corner--bl { bottom: -1px; left: -1px; border-bottom-width: 1px; border-left-width: 1px; }
+.qr__corner--br { bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px; }
+
+.qr__code {
+  display: block;
+  width: 200px;
+  height: 200px;
+}
+@media (min-width: 768px) {
+  .qr__code { width: 220px; height: 220px; }
+}
+
+.qr__caption {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.max__link {
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--muted);
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* На сенсорных устройствах кнопка выше QR, подписи различаются */
+.only-touch { display: none; }
+@media (hover: none) and (pointer: coarse) {
+  .max__btn { order: -1; }
+  .only-touch { display: inline; }
+  .only-desktop { display: none; }
+}
+
+/* ==========================================================================
+   11. Футер
+   ========================================================================== */
+.footer {
+  margin-top: var(--section-gap);
+  padding-block: 48px calc(80px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+.footer__mono {
+  font-family: var(--font-serif);
+  font-size: 24px;
+}
+.footer__date {
+  font-size: 12px;
+  letter-spacing: .04em;
+  color: var(--muted);
+  margin: 4px 0 16px;
+}
+.footer__sign {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+}
+.footer__dev {
+  margin-top: 28px;
+  font-size: 12px;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   Анимации и прелоадер (шаг 3)
+   ========================================================================== */
+
+/* --- Lenis (из lenis/dist/lenis.css) --- */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* --- Блокировка скролла во время загрузки --- */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* --- Прелоадер --- */
+.preloader { display: none; }
+
+.js .preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--text);
+  color: var(--bg);
+  will-change: transform;
+}
+.js.is-loaded .preloader { display: none; }
+
+.preloader__inner { text-align: center; }
+.preloader__mono {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 14vw, 72px);
+  line-height: 1;
+  letter-spacing: .04em;
+}
+.preloader__mono span { font-style: italic; color: #8C8C8C; }
+.preloader__count {
+  margin-top: 24px;
+  font-size: 12px;
+  letter-spacing: .04em;
+  color: #8C8C8C;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Главный экран --- */
+.hero__line { display: block; }
+
+.has-motion .hero__scroll-line {
+  position: relative;
+  overflow: hidden;
+}
+.has-motion .hero__scroll-line::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 40%;
+  background: var(--text);
+  animation: scroll-hint 2.4s cubic-bezier(.65, 0, .35, 1) infinite;
+}
+@keyframes scroll-hint {
+  0%   { transform: translateY(-100%); }
+  60%  { transform: translateY(250%); }
+  100% { transform: translateY(250%); }
+}
+
+/* --- Анимируемые элементы: подсказка браузеру --- */
+.has-motion .photo__frame,
+.has-motion .photo__img { will-change: transform, clip-path; }
+
+/* --- Таймлайн: закрашивание линии и активные точки --- */
+.timeline::after {
+  content: "";
+  position: absolute;
+  top: 26px;
+  bottom: 26px;
+  left: 50%;
+  width: 1px;
+  background: var(--text);
+  transform-origin: top;
+  transform: scaleY(var(--progress, 1));
+}
+
+.timeline__item::before,
+.timeline__event,
+.timeline__time { transition: transform .5s, background-color .5s, color .5s; }
+
+.timeline__item::before { z-index: 1; }
+.has-motion .timeline__item:not(.is-active) .timeline__time,
+.has-motion .timeline__item:not(.is-active) .timeline__event { color: var(--muted); }
+.has-motion .timeline__item:not(.is-active)::before { border-color: var(--line); }
+.timeline__item.is-active::before {
+  background: var(--text);
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+/* --- QR: контур, который прорисовывается, и линия сканирования --- */
+.qr__outline,
+.qr__scan { display: none; }
+
+.has-motion .qr__frame { border-color: transparent; }
+.has-motion .qr__outline {
+  display: block;
+  position: absolute;
+  inset: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+  overflow: hidden;
+  pointer-events: none;
+}
+.qr__outline rect {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2;
+  stroke-dasharray: 1;
+  stroke-dashoffset: var(--draw, 0);
+}
+
+.has-motion .qr__scan {
+  display: block;
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  top: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--text) 50%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- Без анимаций --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+  }
+}

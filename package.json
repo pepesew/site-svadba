@@ -1,0 +1,19 @@
+{
+  "name": "wedding-invite",
+  "private": true,
+  "scripts": {
+    "qr": "node tools/make-qr.mjs",
+    "build": "esbuild src/scene/index.js --bundle --minify --format=iife --target=es2019 --legal-comments=none --outfile=js/scene.js",
+    "fallbacks": "node tools/make-fallbacks.mjs",
+    "photos": "node tools/make-photos.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
+    "puppeteer-core": "^25.12.0",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.35.4",
+    "three": "^0.186.0"
+  }
+}
