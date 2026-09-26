@@ -314,6 +314,11 @@
         return;
       }
 
+      // Гость уже отвечал с этого устройства и мог исправить имя — сервер
+      // заменит прежнюю запись, а не заведет второго гостя
+      var previous = storage('get');
+      if (previous && previous.name) data.previousName = previous.name;
+
       submit.disabled = true;
       submit.textContent = 'Отправляем…';
 

@@ -20,6 +20,7 @@ import secrets
 import sqlite3
 import time
 from collections import defaultdict, deque
+from contextlib import closing, contextmanager
 from datetime import datetime
 from html import escape
 from zoneinfo import ZoneInfo
@@ -59,10 +60,13 @@ RATE_WINDOW = 600
 
 # ---------------------------------------------------------------- база
 
-def db() -> sqlite3.Connection:
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+@contextmanager
+def db():
+    """Соединение с базой: транзакция коммитится при выходе, соединение закрывается."""
+    with closing(sqlite3.connect(DB_PATH)) as conn:
+        conn.row_factory = sqlite3.Row
+        with conn:
+            yield conn
 
 
 def init_db() -> None:
@@ -102,12 +106,25 @@ def name_key(name: str) -> str:
     return re.sub(r"\s+", " ", name).strip().lower().replace("ё", "е")
 
 
-def save_answer(answer: dict, ip: str) -> bool:
-    """Сохраняет ответ. Возвращает True, если гость отвечал раньше (изменение)."""
+def save_answer(answer: dict) -> dict | None:
+    """Сохраняет ответ. Возвращает прежний ответ гостя (если он отвечал раньше) или None.
+
+    Если гость исправил имя при редактировании (previous_name), старая запись
+    заменяется новой — иначе он посчитался бы дважды.
+    """
     key = name_key(answer["name"])
+    old_key = name_key(answer.get("previous_name") or "") or key
     stamp = now_local().isoformat()
     with db() as conn:
-        existed = conn.execute("SELECT 1 FROM guests WHERE key = ?", (key,)).fetchone() is not None
+        prev = conn.execute("SELECT * FROM guests WHERE key = ?", (key,)).fetchone()
+        created = prev["created_at"] if prev else stamp
+        if old_key != key:
+            old = conn.execute("SELECT * FROM guests WHERE key = ?", (old_key,)).fetchone()
+            if old:
+                conn.execute("DELETE FROM guests WHERE key = ?", (old_key,))
+                prev = prev or old
+                created = old["created_at"]
+        previous = dict(prev) if prev else None
         conn.execute(
             """
             INSERT INTO guests (key, name, status, count, comment, created_at, updated_at, ip)
@@ -116,9 +133,9 @@ def save_answer(answer: dict, ip: str) -> bool:
                 name = excluded.name, status = excluded.status, count = excluded.count,
                 comment = excluded.comment, updated_at = excluded.updated_at, ip = excluded.ip
             """,
-            (key, answer["name"], answer["status"], answer["count"], answer["comment"], stamp, stamp, ip),
+            (key, answer["name"], answer["status"], answer["count"], answer["comment"], created, stamp, ""),
         )
-    return existed
+    return previous
 
 
 def delete_guest(name: str) -> str | None:
@@ -192,21 +209,32 @@ def validate(data: dict) -> dict:
             raise Invalid("Укажите число от 2 до 10")
 
     comment = str(data.get("comment", "") or "").strip()[:MAX_COMMENT]
-    return {"name": name, "status": status, "count": count, "comment": comment}
+    previous_name = re.sub(r"\s+", " ", str(data.get("previousName", "") or "")).strip()[:MAX_NAME]
+    return {"name": name, "status": status, "count": count, "comment": comment, "previous_name": previous_name}
 
 
 # ---------------------------------------------------------------- тексты для Telegram
 
-def people(n: int) -> str:
+def plural(n: int, one: str, few: str, many: str) -> str:
     n10, n100 = n % 10, n % 100
-    word = "человек"
+    if n10 == 1 and n100 != 11:
+        return one
     if n10 in (2, 3, 4) and not 12 <= n100 <= 14:
-        word = "человека"
-    return f"{n} {word}"
+        return few
+    return many
 
 
-def answer_message(answer: dict, changed: bool) -> str:
+def people(n: int) -> str:
+    return f"{n} {plural(n, 'человек', 'человека', 'человек')}"
+
+
+def answers(n: int) -> str:
+    return f"{n} {plural(n, 'ответ', 'ответа', 'ответов')}"
+
+
+def answer_message(answer: dict, previous: dict | None) -> str:
     t = totals()
+    changed = previous is not None
     icon = "✏️" if changed else ("💌" if answer["status"] in GOING else "🕊")
     title = "Изменение ответа" if changed else "Новое подтверждение присутствия"
     lines = [
@@ -218,10 +246,15 @@ def answer_message(answer: dict, changed: bool) -> str:
     ]
     if answer["comment"]:
         lines.append(f"<b>Комментарий:</b> {escape(answer['comment'])}")
+    if changed:
+        was = f"{STATUS[previous['status']]}, {people(previous['count'])}"
+        if previous["name"] != answer["name"]:
+            was = f"{escape(previous['name'])} — {was}"
+        lines.append(f"<i>Было: {was}</i>")
     lines += [
         f"<b>Время ответа:</b> {now_local().strftime('%d.%m.%Y %H:%M')} (Оренбург)",
         "",
-        f"Всего придут: <b>{people(t['people'])}</b> · ответов: {t['answers']}",
+        f"Всего придут: <b>{people(t['people'])}</b> · {answers(t['answers'])}",
     ]
     return "\n".join(lines)
 
@@ -231,9 +264,9 @@ def stats_message() -> str:
     return "\n".join([
         "📊 <b>Итоги</b>",
         "",
-        f"Придут: <b>{people(t['people'])}</b> ({t['going_answers']} ответов)",
+        f"Придут: <b>{people(t['people'])}</b> ({answers(t['going_answers'])})",
         f"Не смогут: {t['declined']}",
-        f"Всего ответов: {t['answers']}",
+        f"Всего: {answers(t['answers'])}",
     ])
 
 
@@ -271,13 +304,19 @@ def list_messages() -> list[str]:
     return chunks
 
 
+def csv_safe(value) -> str:
+    """Текст гостя, начинающийся с = + - @, Excel выполнит как формулу — экранируем."""
+    text = str(value)
+    return "'" + text if text[:1] in ("=", "+", "-", "@", "\t", "\r") else text
+
+
 def export_csv() -> bytes:
     buf = io.StringIO()
     writer = csv.writer(buf, delimiter=";")
     writer.writerow(["Имя", "Решение", "Количество", "Комментарий", "Первый ответ", "Последнее изменение"])
     for r in all_guests():
         writer.writerow([
-            r["name"], STATUS[r["status"]], r["count"], r["comment"],
+            csv_safe(r["name"]), STATUS[r["status"]], r["count"], csv_safe(r["comment"]),
             fmt_time(r["created_at"]), fmt_time(r["updated_at"]),
         ])
     return ("﻿" + buf.getvalue()).encode("utf-8")  # BOM — чтобы Excel понял кириллицу
@@ -331,7 +370,7 @@ async def cmd_start(message: Message) -> None:
 @dp.message(Command("admin"))
 async def cmd_admin(message: Message, command: CommandObject) -> None:
     code = (command.args or "").strip()
-    if not ADMIN_CODE or not code or not secrets.compare_digest(code, ADMIN_CODE):
+    if not ADMIN_CODE or not code or not secrets.compare_digest(code.encode(), ADMIN_CODE.encode()):
         await message.answer("Неверный код.")
         return
     user = message.from_user
@@ -390,10 +429,14 @@ async def cmd_export(message: Message) -> None:
 # ---------------------------------------------------------------- HTTP
 
 _hits: dict[str, deque] = defaultdict(deque)
+_tasks: set[asyncio.Task] = set()
 
 
 def rate_limited(ip: str) -> bool:
     now = time.monotonic()
+    if len(_hits) > 10_000:  # чистим старые IP, чтобы словарь не рос бесконечно
+        for key in [k for k, q in _hits.items() if not q or now - q[-1] > RATE_WINDOW]:
+            del _hits[key]
     q = _hits[ip]
     while q and now - q[0] > RATE_WINDOW:
         q.popleft()
@@ -411,6 +454,10 @@ async def handle_rsvp(request: web.Request) -> web.Response:
     ip = request.headers.get("X-Real-IP") or request.remote or ""
     if request.content_length is None or request.content_length > 4096:
         return reply(413, ok=False, error="Слишком большой запрос")
+    # Только application/json: такой запрос с чужого сайта требует CORS-preflight,
+    # который сервер не разрешает, — отправить ответ «от имени» гостя нельзя
+    if request.content_type != "application/json":
+        return reply(415, ok=False, error="Некорректный запрос")
     try:
         data = json.loads(await request.text())
     except (ValueError, UnicodeDecodeError):
@@ -429,11 +476,14 @@ async def handle_rsvp(request: web.Request) -> web.Response:
     except Invalid as e:
         return reply(400, ok=False, error=str(e))
 
-    changed = save_answer(answer, ip)
-    log.info("RSVP: %s — %s (%s)%s", answer["name"], answer["status"], answer["count"], " [изменение]" if changed else "")
+    previous = save_answer(answer)
+    log.info("RSVP: %s — %s (%s)%s", answer["name"], answer["status"], answer["count"], " [изменение]" if previous else "")
 
-    # Ответ уже сохранен — сбой Telegram не должен показывать гостю ошибку
-    asyncio.create_task(notify_admins(answer_message(answer, changed)))
+    # Ответ уже сохранен — сбой Telegram не должен показывать гостю ошибку.
+    # Ссылку на задачу держим, иначе asyncio может удалить ее до завершения.
+    task = asyncio.create_task(notify_admins(answer_message(answer, previous)))
+    _tasks.add(task)
+    task.add_done_callback(_tasks.discard)
     return reply(200, ok=True)
 
 
