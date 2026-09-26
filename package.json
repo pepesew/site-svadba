@@ -5,7 +5,10 @@
     "qr": "node tools/make-qr.mjs",
     "build": "esbuild src/scene/index.js --bundle --minify --format=iife --target=es2019 --legal-comments=none --outfile=js/scene.js",
     "fallbacks": "node tools/make-fallbacks.mjs",
-    "photos": "node tools/make-photos.mjs"
+    "photos": "node tools/make-photos.mjs",
+    "deploy": "bash tools/deploy.sh",
+    "deploy:bot": "bash tools/deploy-bot.sh",
+    "og": "node tools/make-og.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.28.2",

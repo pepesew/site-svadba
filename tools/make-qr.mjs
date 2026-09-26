@@ -57,4 +57,10 @@ ${parts.join('\n')}
 `;
 
 writeFileSync(new URL('assets/img/qr-max.svg', root), svg);
-console.log(`QR готов: ${url} (${n}×${n} модулей, уровень H)`);
+
+// Число рядов нужно анимации построчного появления (js/motion.js)
+const htmlPath = new URL('index.html', root);
+const html = readFileSync(htmlPath, 'utf8').replace(/data-qr-rows="\d+"/, `data-qr-rows="${full}"`);
+writeFileSync(htmlPath, html);
+
+console.log(`QR готов: ${url} (${n}×${n} модулей, уровень H, ${full} рядов с тихой зоной)`);

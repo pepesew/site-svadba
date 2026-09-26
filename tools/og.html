@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,400&family=Great+Vibes&family=Inter:wght@400&display=block&subset=cyrillic" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #FFFDF5; }
+  .og {
+    width: 1200px; height: 630px; box-sizing: border-box;
+    display: grid; grid-template-columns: 520px 1fr; align-items: center;
+    padding: 0 90px 0 70px; background: #FFFDF5; color: #111;
+    position: relative; overflow: hidden;
+  }
+  .og::after { content: ""; position: absolute; inset: 28px; border: 1px solid #DFCBAE; pointer-events: none; }
+  .rings {
+    width: 520px;
+    /* края снимка колец растворяются в фоне — без видимого прямоугольника */
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+            mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+  }
+  .text { text-align: center; }
+  .eyebrow {
+    font: 400 20px/1 Inter, sans-serif; letter-spacing: .3em; padding-left: .3em; color: #2B2620;
+    text-shadow: 0 1px 0 #E6DCCB, 0 2px 0 #DDD1BC, 0 3px 0 #D3C5AD, 0 5px 8px rgba(70,52,25,.16);
+  }
+  .names { font: italic 400 112px/1.05 "Great Vibes", cursive; margin: 26px 0 18px; }
+  .amp { display: block; font: italic 300 58px/1 "Cormorant Garamond", serif; color: #9A8F7E; transform: skewX(17deg); }
+  .date { font: italic 400 26px/1 Inter, sans-serif; letter-spacing: .12em; color: #2B2620; }
+  .place { margin-top: 14px; font: italic 400 20px/1 Inter, sans-serif; color: #645C50; }
+</style></head>
+<body>
+  <div class="og">
+    <img class="rings" src="../assets/img/3d-rings.webp" alt="">
+    <div class="text">
+      <div class="eyebrow">ПРИГЛАШЕНИЕ НА СВАДЬБУ</div>
+      <div class="names">Иван<span class="amp">&amp;</span>София</div>
+      <div class="date">31 · 10 · 2026</div>
+      <div class="place">Оренбург</div>
+    </div>
+  </div>
+</body></html>

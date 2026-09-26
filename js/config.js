@@ -19,10 +19,10 @@ window.WEDDING = {
     lon: 55.130891,
   },
 
-  // Постоянная ссылка-приглашение в закрытую группу MAX. Уточнить.
-  maxGroupUrl: 'https://max.ru/',
+  // Ссылка-приглашение в группу гостей в MAX (после изменения: npm run qr)
+  maxGroupUrl: 'https://max.ru/join/REfVLjOK4RTUHF-mxE3IAqj9a-WZarRionDvn5-hqUE',
 
-  // Адрес обработчика RSVP (появится на шаге с ботом).
-  // Пока пусто — форма работает в демо-режиме и ничего никуда не отправляет.
-  rsvpEndpoint: '',
+  // Обработчик RSVP на том же сервере (server/bot.py за nginx).
+  // При открытии index.html с диска (file://) форма работает в демо-режиме.
+  rsvpEndpoint: '/api/rsvp',
 };

@@ -69,8 +69,12 @@
     });
 
     $$('[data-link="max"]').forEach(function (el) { el.href = C.maxGroupUrl; });
+    // Длинную ссылку показываем коротко; «Скопировать» копирует ее целиком
+    var maxText = C.maxGroupUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+    if (maxText.length > 24) maxText = maxText.slice(0, 20) + '…';
     $$('[data-max-text]').forEach(function (el) {
-      el.textContent = C.maxGroupUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+      el.textContent = maxText;
+      el.title = C.maxGroupUrl;
     });
   }
 
@@ -228,7 +232,8 @@
     }
 
     function send(data) {
-      if (!C.rsvpEndpoint) {
+      var online = /^https?:$/.test(location.protocol);
+      if (!C.rsvpEndpoint || !online) {
         // Демо-режим до появления бэкенда
         console.info('[RSVP demo] отправка пропущена:', data);
         return new Promise(function (resolve) { setTimeout(resolve, 600); });
@@ -244,7 +249,13 @@
         signal: controller ? controller.signal : undefined,
       }).then(function (res) {
         clearTimeout(timeout);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+        if (res.ok) return;
+        // Сервер объясняет отказ понятным текстом — покажем его гостю
+        return res.json().catch(function () { return {}; }).then(function (body) {
+          var err = new Error('HTTP ' + res.status);
+          err.userMessage = body && body.error;
+          throw err;
+        });
       }, function (err) {
         clearTimeout(timeout);
         throw err;
@@ -313,7 +324,8 @@
         document.dispatchEvent(new CustomEvent('rsvp:success', { detail: { status: answer.status } }));
       }, function (err) {
         console.error('[RSVP]', err);
-        formError.textContent = 'Не удалось отправить ответ. Проверьте интернет и попробуйте ещё раз.';
+        formError.textContent = err.userMessage ||
+          'Не удалось отправить ответ. Проверьте интернет и попробуйте ещё раз.';
       }).then(function () {
         submit.disabled = false;
         submit.textContent = submitLabel;

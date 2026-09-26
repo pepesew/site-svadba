@@ -39,7 +39,7 @@ body {
   font-family: var(--font-sans);
   font-weight: 300;
   font-style: italic;      /* весь сайт — курсив (кроме 3D-надписи) */
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
@@ -65,7 +65,7 @@ a { color: inherit; }
    Типографика
    ========================================================================== */
 .eyebrow {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: .04em;
@@ -77,7 +77,7 @@ a { color: inherit; }
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(36px, 9vw, 44px);
+  font-size: clamp(38px, 9.6vw, 48px);
   line-height: 1.15;
 }
 
@@ -100,7 +100,7 @@ a { color: inherit; }
 .quote {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 24px;
+  font-size: 26px;
   line-height: 1.4;
   max-width: 440px;
   margin: 80px auto;
@@ -131,7 +131,7 @@ a { color: inherit; }
   border: 1px solid var(--text);
   border-radius: 0;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: .04em;
@@ -221,7 +221,7 @@ a { color: inherit; }
 .text-3d {
   display: inline-block;
   font-style: normal;       /* объемная надпись остается прямой */
-  font-size: clamp(14px, 3.8vw, 18px);
+  font-size: clamp(15px, 4vw, 19px);
   font-weight: 400;
   letter-spacing: .3em;
   padding-left: .3em;       /* разрядка добавляется и после последней буквы — уравновешиваем слева */
@@ -242,7 +242,7 @@ a { color: inherit; }
 }
 
 .hero__date {
-  font-size: 14px;
+  font-size: 17px;
   letter-spacing: .04em;
 }
 
@@ -255,7 +255,7 @@ a { color: inherit; }
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .04em;
   color: var(--muted);
@@ -359,17 +359,17 @@ a { color: inherit; }
   text-align: right;
   font-family: var(--font-serif);
   font-variant-numeric: lining-nums;
-  font-size: clamp(36px, 10vw, 46px);
+  font-size: clamp(38px, 10.5vw, 48px);
   line-height: 1;
 }
 .timeline__body { text-align: left; }
 @media (max-width: 599px) {
   .timeline__item { column-gap: 44px; }
-  .timeline__event { font-size: 19px; }
+  .timeline__event { font-size: 20px; }
 }
 .timeline__event {
   font-family: var(--font-serif);
-  font-size: clamp(20px, 5.4vw, 24px);
+  font-size: clamp(21px, 5.6vw, 26px);
   font-weight: 400;
   letter-spacing: .04em;
   line-height: 1.25;
@@ -393,7 +393,7 @@ a { color: inherit; }
 .venue { margin: 0; }
 .venue__row + .venue__row { margin-top: 20px; }
 .venue__label {
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: .04em;
   color: var(--muted);
@@ -403,14 +403,14 @@ a { color: inherit; }
 .venue__name {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 30px;
+  font-size: 32px;
   line-height: 1.2;
 }
-.venue__address { font-size: 17px; }
+.venue__address { font-size: 19px; }
 .venue__note {
   margin-top: 20px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 /* Карта: статичная картинка-ссылка в рамке, как у фото. Интерактив отключен,
@@ -441,14 +441,14 @@ a { color: inherit; }
 .map__caption {
   display: inline-block;
   margin-top: 12px;
-  font-size: 13px;
+  font-size: 14.5px;
   color: var(--muted);
   border-bottom: 1px solid var(--line);
 }
 
 .location__label {
   margin: 40px 0 0;
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: .04em;
   color: var(--muted);
@@ -497,23 +497,17 @@ a { color: inherit; }
 }
 
 .swatch__name {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: .04em;
-}
-.swatch__hex {
-  margin-top: -10px;
-  font-size: 11px;
-  letter-spacing: .04em;
-  color: var(--muted);
 }
 
 .dresscode__sign {
   margin-top: 32px;
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 26px;
+  font-size: 28px;
 }
 
 /* ==========================================================================
@@ -569,12 +563,12 @@ a { color: inherit; }
 .timer__unit { display: flex; flex-direction: column; align-items: center; min-width: 56px; }
 .timer__value {
   font-family: var(--font-serif);
-  font-size: clamp(40px, 11vw, 56px);
+  font-size: clamp(44px, 12vw, 60px);
   line-height: 1.1;
   font-variant-numeric: lining-nums tabular-nums;
 }
 .timer__label {
-  font-size: 11px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: .04em;
   color: var(--muted);
@@ -595,7 +589,7 @@ a { color: inherit; }
 .field { display: block; }
 .field__label {
   display: block;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: .04em;
@@ -613,7 +607,7 @@ a { color: inherit; }
   border-radius: 0;
   font-family: var(--font-sans);
   font-weight: 300;
-  font-size: 16px;
+  font-size: 17px;
   color: var(--text);
   outline: none;
   transition: box-shadow .3s;
@@ -640,7 +634,7 @@ a { color: inherit; }
   min-height: 48px;
   padding: 0 16px;
   border: 1px solid var(--line);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: .04em;
@@ -668,7 +662,7 @@ a { color: inherit; }
 .field__error {
   display: block;
   margin-top: 6px;
-  font-size: 13px;
+  font-size: 14.5px;
   color: var(--text);
 }
 .field__error::before { content: "— "; }
@@ -677,7 +671,7 @@ a { color: inherit; }
 
 .form__error {
   margin-top: -12px;
-  font-size: 14px;
+  font-size: 15px;
   text-align: center;
 }
 
@@ -686,17 +680,17 @@ a { color: inherit; }
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
-  font-size: 32px;
+  font-size: 34px;
   margin-bottom: 16px;
 }
 .thanks__summary {
   margin: 24px 0 16px;
-  font-size: 12px;
+  font-size: 13.5px;
   text-transform: uppercase;
   letter-spacing: .04em;
   color: var(--muted);
 }
-.thanks .link-btn { font-size: 14px; }
+.thanks .link-btn { font-size: 15px; }
 
 .hp {
   position: absolute;
@@ -745,13 +739,13 @@ a { color: inherit; }
 
 .qr__caption {
   margin-top: 12px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 
 .max__link {
   margin-top: 20px;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
   display: flex;
   justify-content: center;
@@ -777,10 +771,10 @@ a { color: inherit; }
 }
 .footer__mono {
   font-family: var(--font-serif);
-  font-size: 24px;
+  font-size: 28px;
 }
 .footer__date {
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: .04em;
   color: var(--muted);
   margin: 4px 0 16px;
@@ -788,11 +782,11 @@ a { color: inherit; }
 .footer__sign {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 18px;
+  font-size: 21px;
 }
 .footer__dev {
   margin-top: 28px;
-  font-size: 12px;
+  font-size: 13.5px;
   letter-spacing: .04em;
   color: var(--muted);
 }
@@ -839,7 +833,7 @@ html.is-loading body {
 .preloader__mono span { font-style: italic; color: #8C8C8C; }
 .preloader__count {
   margin-top: 24px;
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: .04em;
   color: #8C8C8C;
   font-variant-numeric: tabular-nums;

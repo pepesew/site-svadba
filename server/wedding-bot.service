@@ -1,0 +1,32 @@
+[Unit]
+Description=Wedding invite: RSVP API + Telegram bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=weddingbot
+Group=weddingbot
+WorkingDirectory=/opt/wedding-bot
+EnvironmentFile=/etc/wedding-bot.env
+Environment=DB_PATH=/var/lib/wedding-bot/rsvp.sqlite3
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/wedding-bot/venv/bin/python bot.py
+Restart=always
+RestartSec=5
+
+# База ответов — /var/lib/wedding-bot (создается systemd, принадлежит weddingbot)
+StateDirectory=wedding-bot
+StateDirectoryMode=0700
+
+# Изоляция: процесс не может писать никуда, кроме своей базы
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+
+[Install]
+WantedBy=multi-user.target

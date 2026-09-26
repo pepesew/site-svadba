@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#111111"/>
+  <text x="32" y="33" fill="#FFFDF5" font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" font-size="30" text-anchor="middle" dominant-baseline="central">I<tspan fill="#9A8F7E" font-style="italic" font-size="24" dx="1" dy="1">&amp;</tspan><tspan dx="1" dy="-1">S</tspan></text>
+</svg>

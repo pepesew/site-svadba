@@ -233,7 +233,7 @@
     if (!palette) return;
 
     var dots = $$('.swatch__dot', palette);
-    var labels = $$('.swatch__name, .swatch__hex', palette);
+    var labels = $$('.swatch__name', palette);
 
     gsap.timeline({
       scrollTrigger: { trigger: palette, start: 'top 80%', once: true },
@@ -295,10 +295,10 @@
     })
       .fromTo(frame, { '--draw': 1 }, { '--draw': 0, duration: 1.2, ease: 'power2.inOut' })
       .from($$('.qr__corner', frame), { opacity: 0, scale: 0.4, duration: 0.5, stagger: 0.08, ease: 'back.out(2)' }, 0.6)
-      // 37 рядов = 29 модулей + по 4 модуля тихой зоны сверху и снизу
+      // Число рядов = модули кода + по 4 модуля тихой зоны (пишет tools/make-qr.mjs)
       .fromTo(code,
         { clipPath: 'inset(0% 0% 100% 0%)' },
-        { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'steps(37)' }, 0.8)
+        { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'steps(' + (parseInt(code.dataset.qrRows, 10) || 37) + ')' }, 0.8)
       .fromTo(scan,
         { y: 0, opacity: 1 },
         { y: function () { return code.offsetHeight; }, duration: 1.1, ease: 'power1.inOut' }, 1.8)
